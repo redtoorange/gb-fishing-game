@@ -6,12 +6,13 @@ namespace UI
 {
     public class GameUIController : MonoBehaviour
     {
-        [SerializeField] private GameObject helpTextPanel;
-        [SerializeField] private TMP_Text helpTextLabel;
         [SerializeField] private TMP_Text fishCountText;
         [SerializeField] private Image driftArrowImage;
         [SerializeField] private TMP_Text phaseText;
 
+        [Header("Tutorial")]
+        [SerializeField] private GameObject helpTextPanel;
+        [SerializeField] private TMP_Text helpTextLabel;
 
         public void ShowHelpText(string text)
         {

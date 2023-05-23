@@ -9,6 +9,11 @@ namespace Menus
         {
             SceneManager.LoadScene("TutorialSection");
         }
+        
+        public void OnFreePlayButtonPressed()
+        {
+            SceneManager.LoadScene("EmbuggeranceMenu");
+        }
 
         public void OnQuitGameButtonPressed()
         {

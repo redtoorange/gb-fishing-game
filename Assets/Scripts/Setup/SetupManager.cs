@@ -13,6 +13,7 @@ namespace Setup
         private bool setupInProgress;
 
         private FishManager fishManager;
+        private RockManager rockManager;
         private DriftManager driftManager;
 
         private void Start()
@@ -20,6 +21,7 @@ namespace Setup
             fishManager = FindFirstObjectByType<FishManager>();
             fishManager.OnAllFishSetupComplete += HandleOnFishSetupComplete;
 
+            rockManager = FindFirstObjectByType<RockManager>();
             driftManager = FindFirstObjectByType<DriftManager>();
         }
 
@@ -31,16 +33,11 @@ namespace Setup
                 setupInProgress = true;
                 if (EmbuggeranceManager.S.HasEmbuggerance(EmbuggeranceType.Rocks))
                 {
-                    ScatterRocks();
+                    rockManager.HandleSetup();
                 }
 
                 fishManager.HandleFishSetup();
             }
-        }
-
-        private void ScatterRocks()
-        {
-            // TODO Implement Rocks
         }
 
         private void HandleOnFishSetupComplete()

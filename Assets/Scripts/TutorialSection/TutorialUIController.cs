@@ -46,7 +46,7 @@ namespace TutorialSection
 
         public void OnSkipClicked()
         {
-            SceneManager.LoadScene("EmbuggeranceMenu");
+            SceneManager.LoadScene("MainGame");
         }
     }
 }

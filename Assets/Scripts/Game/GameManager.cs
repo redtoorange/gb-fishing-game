@@ -1,6 +1,7 @@
 ﻿using Boat;
 using Cinemachine;
 using Drift;
+using Embugerance;
 using Fish;
 using Setup;
 using UI;
@@ -98,6 +99,7 @@ namespace Game
 
         private void HandleOnAllFishCaught()
         {
+            Destroy(EmbuggeranceManager.S.gameObject);
             LeanTween.pauseAll();
             currentGamePhase = GamePhase.GAME_WIN;
             SceneManager.LoadScene("GameOverWin");
@@ -105,6 +107,7 @@ namespace Game
 
         private void HandleOnBoatCrash()
         {
+            Destroy(EmbuggeranceManager.S.gameObject);
             LeanTween.pauseAll();
             currentGamePhase = GamePhase.GAME_OVER;
             SceneManager.LoadScene("GameOverLose");
