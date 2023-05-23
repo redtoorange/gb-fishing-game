@@ -10,6 +10,6 @@ public class EndGameMenuController : MonoBehaviour
 
     public void OnMainMenuButtonPressed()
     {
-        SceneManager.LoadScene("MainMenu");
+        SceneManager.LoadScene("0_MainMenu");
     }
 }

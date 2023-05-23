@@ -44,6 +44,6 @@ public class TutorialUIController : MonoBehaviour
 
     public void OnSkipClicked()
     {
-        SceneManager.LoadScene("MainGame");
+        SceneManager.LoadScene("EmbuggeranceMenu");
     }
 }

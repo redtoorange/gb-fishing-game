@@ -52,11 +52,9 @@ MonoBehaviour:
   fishSprite: {fileID: 4242512280696841888}
   fishRotateSpeed: 1
   fishMovementSpeed: 1
-  fishMovementDistanceMin: 1
-  fishMovementDistanceMax: 4
   movementLayerMask:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 1152
 --- !u!58 &5605914223035509982
 CircleCollider2D:
   m_ObjectHideFlags: 0

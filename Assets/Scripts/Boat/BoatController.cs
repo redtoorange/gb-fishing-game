@@ -114,17 +114,22 @@ namespace Boat
 
         private void OnCollisionEnter2D(Collision2D other)
         {
-            Debug.Log("Collision occured!");
             if (other.gameObject.CompareTag("Wall"))
             {
-                Debug.Log("Hit a Wall!");
                 LeanTween.pause(gameObject);
                 OnBoatCrash?.Invoke();
             }
             else if (other.gameObject.TryGetComponent(out FishController fishController))
             {
-                Debug.Log("Caught a Fish!");
                 fishController.Caught();
+            }
+            else if (other.gameObject.TryGetComponent(out Obstacle obstacle))
+            {
+                if (obstacle.GetObstacleType() == ObstacleType.Rock)
+                {
+                    LeanTween.pause(gameObject);
+                    OnBoatCrash?.Invoke();
+                }
             }
         }
     }
