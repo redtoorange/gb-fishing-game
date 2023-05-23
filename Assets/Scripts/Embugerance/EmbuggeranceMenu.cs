@@ -1,13 +1,12 @@
-﻿using System;
-using Embugerance;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Menus
+namespace Embugerance
 {
     public class EmbuggeranceMenu : MonoBehaviour
     {
         private EmbuggeranceManager embuggeranceManager;
+
         private void Start()
         {
             embuggeranceManager = FindFirstObjectByType<EmbuggeranceManager>();

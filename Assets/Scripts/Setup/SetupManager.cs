@@ -33,6 +33,7 @@ namespace Setup
                 {
                     ScatterRocks();
                 }
+
                 fishManager.HandleFishSetup();
             }
         }
@@ -45,7 +46,7 @@ namespace Setup
         private void HandleOnFishSetupComplete()
         {
             driftManager.HandleSetup();
-            
+
             setupInProgress = false;
             OnSetupComplete?.Invoke();
         }

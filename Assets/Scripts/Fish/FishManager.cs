@@ -40,7 +40,7 @@ namespace Fish
                 movingFish.Add(fish);
                 fish.MoveFish(8);
             }
-            
+
             if (EmbuggeranceManager.S.HasEmbuggerance(EmbuggeranceType.FastFish))
             {
                 fishMovementSpeed = 6;

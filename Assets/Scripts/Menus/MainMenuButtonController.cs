@@ -1,15 +1,18 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MainMenuButtonController : MonoBehaviour
+namespace Menus
 {
-    public void OnStartGameButtonPressed()
+    public class MainMenuButtonController : MonoBehaviour
     {
-        SceneManager.LoadScene("TutorialSection");
-    }
+        public void OnStartGameButtonPressed()
+        {
+            SceneManager.LoadScene("TutorialSection");
+        }
 
-    public void OnQuitGameButtonPressed()
-    {
-        Application.Quit();
+        public void OnQuitGameButtonPressed()
+        {
+            Application.Quit();
+        }
     }
 }

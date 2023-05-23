@@ -10,10 +10,10 @@ namespace Embugerance
         public static Action<EmbuggeranceType, bool> OnEmbuggeranceToggled;
         public static Action<string> OnEmbuggeranceHovered;
         public static Action OnEmbuggeranceUnHovered;
-        
+
         [SerializeField] private EmbuggeranceType embuggeranceType;
-        [SerializeField][Multiline] private string description;
-        
+        [SerializeField] [Multiline] private string description;
+
         private Toggle toggle;
 
         private void Start()

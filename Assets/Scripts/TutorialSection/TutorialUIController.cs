@@ -4,46 +4,49 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class TutorialUIController : MonoBehaviour
+namespace TutorialSection
 {
-    [SerializeField] private Button backButton;
-    [SerializeField] private Button continueButton;
-    [SerializeField] private TMP_Text tutorialTextOutput;
-    [SerializeField] private List<string> tutorialItems;
-
-    private int tutorialIndex = 0;
-
-    private void Start()
+    public class TutorialUIController : MonoBehaviour
     {
-        tutorialTextOutput.text = tutorialItems[tutorialIndex];
-    }
+        [SerializeField] private Button backButton;
+        [SerializeField] private Button continueButton;
+        [SerializeField] private TMP_Text tutorialTextOutput;
+        [SerializeField] private List<string> tutorialItems;
 
-    public void OnBackClicked()
-    {
-        tutorialIndex -= 1;
-        tutorialTextOutput.text = tutorialItems[tutorialIndex];
-        continueButton.gameObject.SetActive(true);
+        private int tutorialIndex = 0;
 
-        if (tutorialIndex == 0)
+        private void Start()
         {
-            backButton.gameObject.SetActive(false);
+            tutorialTextOutput.text = tutorialItems[tutorialIndex];
         }
-    }
-    
-    public void OnContinueClicked()
-    {
-        tutorialIndex += 1;
-        tutorialTextOutput.text = tutorialItems[tutorialIndex];
-        backButton.gameObject.SetActive(true);
 
-        if (tutorialIndex == tutorialItems.Count - 1)
+        public void OnBackClicked()
         {
-            continueButton.gameObject.SetActive(false);
-        }
-    }
+            tutorialIndex -= 1;
+            tutorialTextOutput.text = tutorialItems[tutorialIndex];
+            continueButton.gameObject.SetActive(true);
 
-    public void OnSkipClicked()
-    {
-        SceneManager.LoadScene("EmbuggeranceMenu");
+            if (tutorialIndex == 0)
+            {
+                backButton.gameObject.SetActive(false);
+            }
+        }
+
+        public void OnContinueClicked()
+        {
+            tutorialIndex += 1;
+            tutorialTextOutput.text = tutorialItems[tutorialIndex];
+            backButton.gameObject.SetActive(true);
+
+            if (tutorialIndex == tutorialItems.Count - 1)
+            {
+                continueButton.gameObject.SetActive(false);
+            }
+        }
+
+        public void OnSkipClicked()
+        {
+            SceneManager.LoadScene("EmbuggeranceMenu");
+        }
     }
 }

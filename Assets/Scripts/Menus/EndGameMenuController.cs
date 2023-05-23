@@ -1,15 +1,18 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class EndGameMenuController : MonoBehaviour
+namespace Menus
 {
-    public void OnPlayAgainButtonPressed()
+    public class EndGameMenuController : MonoBehaviour
     {
-        SceneManager.LoadScene("MainGame");
-    }
+        public void OnPlayAgainButtonPressed()
+        {
+            SceneManager.LoadScene("MainGame");
+        }
 
-    public void OnMainMenuButtonPressed()
-    {
-        SceneManager.LoadScene("0_MainMenu");
+        public void OnMainMenuButtonPressed()
+        {
+            SceneManager.LoadScene("0_MainMenu");
+        }
     }
 }
