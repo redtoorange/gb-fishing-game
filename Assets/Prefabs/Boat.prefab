@@ -118,7 +118,7 @@ Transform:
   m_Children:
   - {fileID: 8853106514209669327}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7916381228710344499
 MonoBehaviour:
@@ -138,6 +138,7 @@ MonoBehaviour:
   movementLayerMask:
     serializedVersion: 2
     m_Bits: 0
+  diceRollController: {fileID: 0}
 --- !u!60 &7566897017593566745
 PolygonCollider2D:
   m_ObjectHideFlags: 0

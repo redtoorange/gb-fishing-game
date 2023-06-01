@@ -41,7 +41,7 @@ namespace Drift
 
         public void StartDrift()
         {
-            boatController.HandleDrifting(driftHeading, Random.Range(0, maxDrift) + 1);
+            boatController.HandleDrifting(driftHeading, maxDrift);
         }
     }
 }

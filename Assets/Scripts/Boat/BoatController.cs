@@ -1,9 +1,9 @@
 ﻿using System;
+using DiceRoller;
 using Embugerance;
 using Fish;
 using Game;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace Boat
 {
@@ -15,21 +15,27 @@ namespace Boat
         public Action OnBoatDriftComplete;
 
         [SerializeField] private float rotateSpeed = 1.0f;
-        [SerializeField] private float movementDistance = 6.0f;
+        [SerializeField] private int movementDistance = 6;
         [SerializeField] private float movementTweenSpeed = 1.0f;
         [SerializeField] private LayerMask movementLayerMask;
+        [SerializeField] private DiceRollController diceRollController;
 
         private Rigidbody2D rigidbody;
         private PolygonCollider2D collider;
+        private float driftHeading;
 
         private void Start()
         {
             rigidbody = GetComponent<Rigidbody2D>();
             collider = GetComponent<PolygonCollider2D>();
+            diceRollController.OnDiceRollCompleted += HandleDiceRolled;
         }
+
 
         private void Update()
         {
+            if (GameManager.S.IsGamePaused()) return;
+
             HandleBoatRotationInput();
 
             if (GameManager.S.GetCurrentPhase() == GamePhase.ROTATE_BOAT)
@@ -59,13 +65,50 @@ namespace Boat
             }
         }
 
-        public void HandleDrifting(float heading, int amount)
+        public void HandleDrifting(float heading, int maxDrift)
+        {
+            driftHeading = heading;
+            diceRollController.RollDice(1, maxDrift);
+        }
+
+        private void HandleDiceRolled(int value)
+        {
+            if (GameManager.S.GetCurrentPhase() == GamePhase.DRIFT)
+            {
+                InternalHandleDrift(value);
+            } else if (GameManager.S.GetCurrentPhase() == GamePhase.MOVE_BOAT)
+            {
+                InternalHandleMovement(value);
+            }
+        }
+
+        private void InternalHandleMovement(int value)
         {
             Vector3 currentPosition = rigidbody.position;
-            Vector3 direction = Quaternion.Euler(0, 0, heading) * Vector3.up;
+            Vector3 direction = Quaternion.Euler(0, 0, rigidbody.rotation) * Vector3.up;
 
             Vector3 rbPos = rigidbody.position;
-            Vector3 newPosition = rbPos + (direction.normalized * amount);
+            Vector3 newPosition = rbPos + (direction.normalized * value);
+
+
+            LeanTween.value(
+                    gameObject,
+                    PerformBoatMovementTween,
+                    currentPosition,
+                    newPosition,
+                    movementTweenSpeed
+                ).setEase(LeanTweenType.easeInOutCubic)
+                .setOnComplete(() => OnBoatMoveComplete?.Invoke());
+        }
+
+        private void InternalHandleDrift(int value)
+        {
+            int driftAmount = value;
+            Vector3 currentPosition = rigidbody.position;
+            Vector3 direction = Quaternion.Euler(0, 0, driftHeading) * Vector3.up;
+
+            Vector3 rbPos = rigidbody.position;
+            Vector3 newPosition = rbPos + (direction.normalized * driftAmount);
 
 
             LeanTween.value(
@@ -80,31 +123,14 @@ namespace Boat
 
         public void StartMoving()
         {
-            Vector3 currentPosition = rigidbody.position;
-            Vector3 direction = Quaternion.Euler(0, 0, rigidbody.rotation) * Vector3.up;
-
-            Vector3 rbPos = rigidbody.position;
-            Vector3 newPosition = rbPos + (direction.normalized * GetMovementDistance());
-
-
-            LeanTween.value(
-                    gameObject,
-                    PerformBoatMovementTween,
-                    currentPosition,
-                    newPosition,
-                    movementTweenSpeed
-                ).setEase(LeanTweenType.easeInOutCubic)
-                .setOnComplete(() => OnBoatMoveComplete?.Invoke());
-        }
-
-        private float GetMovementDistance()
-        {
             if (EmbuggeranceManager.S.HasEmbuggerance(EmbuggeranceType.Binding))
             {
-                return Random.Range(0, 6) + 1;
+                diceRollController.RollDice(1, 6);
             }
-
-            return movementDistance;
+            else
+            {
+                InternalHandleMovement(movementDistance);
+            }
         }
 
         private void PerformBoatMovementTween(Vector3 pos)

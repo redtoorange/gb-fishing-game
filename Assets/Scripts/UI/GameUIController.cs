@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,6 +14,9 @@ namespace UI
         [Header("Tutorial")]
         [SerializeField] private GameObject helpTextPanel;
         [SerializeField] private TMP_Text helpTextLabel;
+
+        
+
 
         public void ShowHelpText(string text)
         {

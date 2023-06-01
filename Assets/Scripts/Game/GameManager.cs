@@ -39,6 +39,7 @@ namespace Game
         private FishManager fishManager;
         private DriftManager driftManager;
         private GameUIController gameUIController;
+        private GamePauseManager gamePauseManager;
 
         private void Start()
         {
@@ -63,7 +64,23 @@ namespace Game
 
             gameUIController.ShowHelpText("Press Space to Start");
             gameUIController.SetFishCaughtCount(0);
+
+            gamePauseManager = FindFirstObjectByType<GamePauseManager>();
         }
+
+        public void OnToggleGamePaused(bool shouldPause)
+        {
+            if (shouldPause)
+            {
+                Time.timeScale = 0.0f;
+            }
+            else
+            {
+                Time.timeScale = 1.0f;
+            }
+        }
+
+        public bool IsGamePaused() => gamePauseManager.IsGamePaused();
 
         private void HandleDriftSetupComplete(int newHeading)
         {
@@ -77,6 +94,8 @@ namespace Game
 
         private void Update()
         {
+            if (IsGamePaused()) return;
+
             if (currentGamePhase == GamePhase.SETUP)
             {
                 if (Input.GetKey(KeyCode.Space))

@@ -1,6 +1,6 @@
 using System;
+using DiceRoller;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace Fish
 {
@@ -12,6 +12,7 @@ namespace Fish
         [Header("External Objects")]
         [SerializeField] private FishMovementArrow fishMovementArrow;
         [SerializeField] private GameObject fishSprite;
+        [SerializeField] private DiceRollController diceRollController;
 
         [Header("Tween Speeds")]
         [SerializeField] private float fishRotateSpeed = 1.0f;
@@ -26,6 +27,7 @@ namespace Fish
         private CircleCollider2D collider;
         private float lastFishHeading;
         private float newFishHeading;
+        private int nextMovementDistance;
 
         private void Start()
         {
@@ -35,7 +37,10 @@ namespace Fish
             lastFishHeading = fishSprite.transform.rotation.eulerAngles.z;
             fishMovementArrow.OnSpinComplete += HandleOnSpinArrowComplete;
             fishMovementArrow.HideArrow();
+
+            diceRollController.OnDiceRollCompleted += HandleMovementDiceRolled;
         }
+
 
         public void MoveFish(int maxFishMove)
         {
@@ -49,6 +54,12 @@ namespace Fish
             float rotationAmount = Mathf.Clamp(angleDifference, -360, 360);
             newFishHeading = lastFishHeading + rotationAmount;
 
+            diceRollController.RollDice(fishMovementDistanceMin, fishMovementDistanceMax);
+        }
+
+        private void HandleMovementDiceRolled(int roll)
+        {
+            nextMovementDistance = roll;
             LeanTween.value(
                     gameObject,
                     PerformRotateFishTween,
@@ -70,8 +81,7 @@ namespace Fish
 
             Vector3 currentPosition = transform.position;
             Vector3 direction = Quaternion.Euler(0, 0, lastFishHeading) * Vector3.right;
-            int movementDistance = Random.Range(fishMovementDistanceMin, fishMovementDistanceMax + 1);
-            Vector3 newPosition = TestMovement(currentPosition, direction, movementDistance);
+            Vector3 newPosition = TestMovement(currentPosition, direction, nextMovementDistance);
 
             LeanTween.value(
                     gameObject,
